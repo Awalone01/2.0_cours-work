@@ -22,17 +22,17 @@ public class JavaController {
     @GetMapping("/java/add")
     public Question addQuestion(@RequestParam String question,
                                 @RequestParam String answer) {
-        return addQuestion(question, answer);
+        return service.addQuestion(question, answer);
     }
 
     @GetMapping("/java/remove")
-    public Question removeQuestion(@RequestParam String question,
-                                @RequestParam String answer) {
-        return removeQuestion(question, answer);
+    public boolean removeQuestion(@RequestParam String question) {
+        return service.removeQuestion(question);
     }
 
+    @GetMapping("/java")
     public Collection<Question> getQuestions() {
-        return getQuestions();
+        return service.getQuestions();
     }
 
 }

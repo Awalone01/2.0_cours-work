@@ -4,33 +4,36 @@ import org.springframework.stereotype.Service;
 import pro.sky2._courswork.Service.QuestionService;
 import pro.sky2._courswork.data.Question;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
 public class JavaQuestionService implements QuestionService {
 
-
-    public Set<Question> questions;
+    private final Set<Question> questions = new HashSet<>();
 
     @Override
-    public Question add(String question, String answer) {
+    public Question addQuestion(String question, String answer) {
+        Question addingQuestion = new Question(question, answer);
+        questions.add(addingQuestion);
+        return addingQuestion;
+    }
+
+    @Override
+    public Question addQuestion(Question question) {
         return null;
     }
 
     @Override
-    public Question add(String question) {
-        return null;
+    public boolean removeQuestion(String question, String answer) {
+        return questions.remove();
     }
 
     @Override
-    public Question remove(String question) {
-        return null;
-    }
-
-    @Override
-    public Collection<Question> getAll() {
-        return null;
+    public Collection<Question> getQuestions() {
+        return new ArrayList<>(questions);
     }
 
     @Override
