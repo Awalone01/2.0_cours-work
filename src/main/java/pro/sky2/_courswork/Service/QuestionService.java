@@ -3,6 +3,7 @@ package pro.sky2._courswork.Service;
 import pro.sky2._courswork.data.Question;
 
 import java.util.Collection;
+import java.util.Set;
 
 public interface QuestionService {
 
@@ -10,9 +11,9 @@ public interface QuestionService {
 
     Question addQuestion(Question question);
 
-    boolean removeQuestion(String question, String answer);
+    Question removeQuestion(String question, String answer);
 
-    Collection<Question> getQuestions();
+    Set<Question> getQuestions();
 
     Question getRandomQuestion();
 

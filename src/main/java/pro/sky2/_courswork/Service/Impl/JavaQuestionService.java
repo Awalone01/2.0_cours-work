@@ -4,15 +4,17 @@ import org.springframework.stereotype.Service;
 import pro.sky2._courswork.Service.QuestionService;
 import pro.sky2._courswork.data.Question;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 @Service
 public class JavaQuestionService implements QuestionService {
 
     private final Set<Question> questions = new HashSet<>();
+
+    Random random = new Random();
+
 
     @Override
     public Question addQuestion(String question, String answer) {
@@ -27,13 +29,16 @@ public class JavaQuestionService implements QuestionService {
     }
 
     @Override
-    public boolean removeQuestion(String question, String answer) {
-        return questions.remove();
+    public Question removeQuestion(String question, String answer) {
+
+        Question removingQuestion = new Question(question, answer);
+
+        return removingQuestion;
     }
 
     @Override
-    public Collection<Question> getQuestions() {
-        return new ArrayList<>(questions);
+    public Set<Question> getQuestions() {
+        return questions;
     }
 
     @Override

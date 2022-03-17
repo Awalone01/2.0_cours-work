@@ -8,6 +8,7 @@ import pro.sky2._courswork.Service.QuestionService;
 import pro.sky2._courswork.data.Question;
 
 import java.util.Collection;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/exam")
@@ -26,12 +27,13 @@ public class JavaController {
     }
 
     @GetMapping("/java/remove")
-    public boolean removeQuestion(@RequestParam String question) {
-        return service.removeQuestion(question);
+    public Question removeQuestion(@RequestParam String question,
+                                   @RequestParam String answer) {
+        return service.removeQuestion(question, answer);
     }
 
     @GetMapping("/java")
-    public Collection<Question> getQuestions() {
+    public Set<Question> getQuestions() {
         return service.getQuestions();
     }
 
