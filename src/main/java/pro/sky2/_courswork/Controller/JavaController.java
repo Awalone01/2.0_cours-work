@@ -8,7 +8,6 @@ import pro.sky2._courswork.Service.QuestionService;
 import pro.sky2._courswork.data.Question;
 
 import java.util.Collection;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/exam")
@@ -33,7 +32,7 @@ public class JavaController {
     }
 
     @GetMapping("/java")
-    public Set<Question> getQuestions() {
+    public Collection<Question> getQuestions() {
         return service.getQuestions();
     }
 
