@@ -11,6 +11,7 @@ import pro.sky2._courswork.exception.InvalidExamGenerateException;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 
@@ -18,6 +19,7 @@ import java.util.Set;
 public class ExaminerServiceImpl implements ExaminerService {
 
     private final QuestionService questionService;
+    private Random random;
 
     public ExaminerServiceImpl(QuestionService questionService) {
         this.questionService = questionService;
@@ -35,5 +37,9 @@ public class ExaminerServiceImpl implements ExaminerService {
             questionSet.add(questionService.getRandomQuestion());
         }
         return questionSet;
+    }
+
+    public void setRandom(Random random) {
+        this.random = random;
     }
 }
