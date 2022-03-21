@@ -25,14 +25,14 @@ public class ExaminerServiceImplTest {
     private QuestionService secondMock;
 
 
-    @BeforeEach
-    public void setUp() {
-        firstMock = mock(QuestionService.class);
-        secondMock = mock(QuestionService.class);
-
-
-        this.out = new ExaminerServiceImpl(List.copyOf(firstMock, secondMock));
-    }
+//    @BeforeEach
+//    public void setUp() {
+//        firstMock = mock(QuestionService.class);
+//        secondMock = mock(QuestionService.class);
+//
+//
+//        out = new ExaminerServiceImpl();
+//    }
 
     @Test
     public void amountTest() {

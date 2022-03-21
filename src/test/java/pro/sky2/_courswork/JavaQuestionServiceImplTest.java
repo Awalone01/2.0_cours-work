@@ -6,57 +6,55 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky2._courswork.Service.Impl.JavaQuestionService;
+import pro.sky2._courswork.Service.QuestionService;
 import pro.sky2._courswork.data.Question;
 
-import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static pro.sky2._courswork.ConstantsForTests.FIRST_ANSWER;
+import static pro.sky2._courswork.ConstantsForTests.FIRST_QUESTION;
 
 @ExtendWith(MockitoExtension.class)
 public class JavaQuestionServiceImplTest {
 
     @Mock
-    private QuestionRepository questionRepository;
+    private QuestionService questionService;
 
     @InjectMocks
     private JavaQuestionService out;
 
-    public void turnDown() {
-
-    }
-
     @Test
     public void addQuestionTest() {
-        Question question = new Question("q", "w");
-        when(questionRepository.add(question)).thanReturn(true, false);
-
-        assertTrue(out.add(question));
-        assertFalse(out.add(question));
+        Question expectedQuestion = new Question(FIRST_QUESTION, FIRST_ANSWER);
+        assertEquals(0, out.getQuestions().size());
+        Question actualQuestion = out.addQuestion(FIRST_QUESTION, FIRST_ANSWER);
+        assertEquals(expectedQuestion, actualQuestion);
+        assertEquals(1, out.getQuestions().size());
+        assertTrue(out.getQuestions().contains(expectedQuestion));
     }
 
-    @Test
-    public void removeQuestionTest() {
-        String questionText = "q";
-        String answerText = "w";
-        Question question = new Question(questionText, answerText);
-        when(questionRepository.remove(question)).thenReturn(true, false);
-
-        assertTrue(out.remove(questionText, answerText));
-        assertFalse(out.remove(questionText, answerText));
-    }
-
-    @Test
-    public void getAllQuestionTest() {
-        Set<Question> questionSet = Set.of(
-                new Question("q", "w"),
-                new Question("a", "s")
-        );
-        when(questionRepository.getAll()).thenReturn(questionSet);
-
-        assertEquals(out.getAll().size(), questionSet.size());
-        assertTrue(out.getAll().containsAll(questionSet));
-    }
+//    @Test
+//    public void removeQuestionTest() {
+//        String questionText = "q";
+//        String answerText = "w";
+//        Question question = new Question(questionText, answerText);
+//        when(questionService.removeQuestion(question)).thenReturn(true, false);
+//
+//        assertTrue(out.removeQuestion(questionText, answerText));
+//        assertFalse(out.removeQuestion(questionText, answerText));
+//    }
+//
+//    @Test
+//    public void getAllQuestionTest() {
+//        Set<Question> questionSet = Set.of(
+//                new Question("q", "w"),
+//                new Question("a", "s")
+//        );
+//        when(questionService.getQuestions()).thenReturn(questionSet);
+//
+//        assertEquals(out.getQuestions().size(), questionSet.size());
+//        assertTrue(out.getQuestions().containsAll(questionSet));
+//    }
 }
