@@ -24,11 +24,9 @@ class ExaminerServiceImplTest {
     private QuestionService mock2;
 
     @BeforeEach
-    public void setUp() {
+    public void initialize() {
         mock1 = mock(QuestionService.class);
         mock2 = mock(QuestionService.class);
-
-        this.out = new ExaminerServiceImpl(List.of(mock1, mock2));
     }
 
     @Test
