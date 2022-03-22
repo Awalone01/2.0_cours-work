@@ -11,63 +11,60 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ExaminerServiceImplTest {
+class ExaminerServiceImplTest {
 
     private ExaminerServiceImpl out;
-    private QuestionService firstMock;
-    private QuestionService secondMock;
+    private QuestionService mock1;
+    private QuestionService mock2;
 
+    @BeforeEach
+    public void setUp() {
+        mock1 = mock(QuestionService.class);
+        mock2 = mock(QuestionService.class);
 
-//    @BeforeEach
-//    public void setUp() {
-//        firstMock = mock(QuestionService.class);
-//        secondMock = mock(QuestionService.class);
-//
-//
-//        out = new ExaminerServiceImpl();
-//    }
-
-    @Test
-    public void amountTest() {
-        assertThrows(InvalidExamGenerateException.class, () ->
-                out.getQuestions(-1));
-        assertThrows(InvalidExamGenerateException.class, () ->
-                out.getQuestions(0));
+        this.out = new ExaminerServiceImpl(List.of(mock1, mock2));
     }
 
     @Test
-    public void getRandomQuestionsTest() {
-        when(firstMock.getRandomQuestion()).thenReturn(
+    public void test_amount_is_less_than_one() {
+        assertThrows(InvalidExamGenerateException.class, () -> out.getQuestions(-1));
+        assertThrows(InvalidExamGenerateException.class, () -> out.getQuestions(0));
+    }
+
+    @Test
+    public void test_random_questions() {
+        when(mock1.getRandomQuestion()).thenReturn(
                 new Question("mock1_question1", "mock1_answer1"),
                 new Question("mock1_question2", "mock1_answer2")
         );
-
-        when(secondMock.getRandomQuestion()).thenReturn(
+        when(mock2.getRandomQuestion()).thenReturn(
                 new Question("mock2_question1", "mock2_answer1"),
                 new Question("mock2_question2", "mock2_answer2"),
-                new Question("mock2_question3", "mock2_answer3")
+                new Question("mock2_question2", "mock2_answer3")
         );
 
         Random mockRandom = mock(Random.class);
         when(mockRandom.nextInt(anyInt())).thenReturn(0, 1, 1, 0, 1);
         out.setRandom(mockRandom);
 
-        Collection<Question> actualCollection = out.getQuestions(5);
-        List<Question> expectedCollection = of(
+
+        Collection<Question> actual = out.getQuestions(5);
+        List<Question> expected = List.of(
                 new Question("mock1_question1", "mock1_answer1"),
                 new Question("mock2_question1", "mock2_answer1"),
                 new Question("mock2_question2", "mock2_answer2"),
                 new Question("mock1_question2", "mock1_answer2"),
-                new Question("mock2_question3", "mock2_answer3")
+                new Question("mock2_question2", "mock2_answer3")
         );
 
-        assertIterableEquals(expectedCollection, actualCollection);
+        assertIterableEquals(expected, actual);
+
     }
+
 }

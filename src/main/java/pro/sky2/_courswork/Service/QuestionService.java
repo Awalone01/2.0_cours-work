@@ -8,6 +8,8 @@ public interface QuestionService {
 
     Question addQuestion(String question, String answer);
 
+    Question add(String question);
+
     Question removeQuestion(String question, String answer);
 
     Collection<Question> getQuestions();

@@ -9,25 +9,22 @@ import pro.sky2._courswork.Service.QuestionService;
 import pro.sky2._courswork.data.Question;
 import pro.sky2._courswork.exception.InvalidExamGenerateException;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
 
-    private final QuestionService questionService;
-    private Random random;
+    private final List<QuestionService> questionService;
+    private Random random = new Random();
 
-    public ExaminerServiceImpl(QuestionService questionService) {
-        this.questionService = questionService;
+    public ExaminerServiceImpl(List<QuestionService> questionServices) {
+        this.questionService = questionServices;
     }
 
     @Override
     public Collection<Question> getQuestions(int amount) {
-        int size = questionService.getSize();
+        int size = questionService.size();
         if (amount <= 0 || size < amount) {
             throw new InvalidExamGenerateException("Запрашиваемое количество должно быть положительным и не быть больше чем размер коллекции");
         }

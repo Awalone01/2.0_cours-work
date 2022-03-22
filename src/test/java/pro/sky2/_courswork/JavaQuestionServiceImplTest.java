@@ -6,55 +6,73 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky2._courswork.Service.Impl.JavaQuestionService;
-import pro.sky2._courswork.Service.QuestionService;
 import pro.sky2._courswork.data.Question;
+import pro.sky2._courswork.repository.QuestionRepository;
 
+import java.util.List;
+import java.util.Random;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static pro.sky2._courswork.ConstantsForTests.FIRST_ANSWER;
-import static pro.sky2._courswork.ConstantsForTests.FIRST_QUESTION;
+
 
 @ExtendWith(MockitoExtension.class)
-public class JavaQuestionServiceImplTest {
+class JavaQuestionServiceTest {
 
     @Mock
-    private QuestionService questionService;
+    private QuestionRepository repository;
 
     @InjectMocks
     private JavaQuestionService out;
 
     @Test
-    public void addQuestionTest() {
-        Question expectedQuestion = new Question(FIRST_QUESTION, FIRST_ANSWER);
-        assertEquals(0, out.getQuestions().size());
-        Question actualQuestion = out.addQuestion(FIRST_QUESTION, FIRST_ANSWER);
-        assertEquals(expectedQuestion, actualQuestion);
-        assertEquals(1, out.getQuestions().size());
-        assertTrue(out.getQuestions().contains(expectedQuestion));
+    public void test_add() {
+        Question question = new Question("testQ", "testA");
+        when(repository.add(question)).thenReturn(true, false);
+
+        assertTrue((BooleanSupplier) out.add(String.valueOf(question)));
+        assertFalse((BooleanSupplier) out.add(String.valueOf(question)));
     }
 
-//    @Test
-//    public void removeQuestionTest() {
-//        String questionText = "q";
-//        String answerText = "w";
-//        Question question = new Question(questionText, answerText);
-//        when(questionService.removeQuestion(question)).thenReturn(true, false);
-//
-//        assertTrue(out.removeQuestion(questionText, answerText));
-//        assertFalse(out.removeQuestion(questionText, answerText));
-//    }
-//
-//    @Test
-//    public void getAllQuestionTest() {
-//        Set<Question> questionSet = Set.of(
-//                new Question("q", "w"),
-//                new Question("a", "s")
-//        );
-//        when(questionService.getQuestions()).thenReturn(questionSet);
-//
-//        assertEquals(out.getQuestions().size(), questionSet.size());
-//        assertTrue(out.getQuestions().containsAll(questionSet));
-//    }
+    @Test
+    public void test_remove() {
+        Question question = new Question("testQ", "testA");
+        when(repository.remove(question)).thenReturn(true, false);
+
+        assertTrue((BooleanSupplier) out.removeQuestion("testQ", "testA"));
+        assertFalse((BooleanSupplier) out.removeQuestion("testQ", "testA"));
+    }
+
+    @Test
+    public void test_get_all() {
+        Set<Question> questions = Set.of(
+                new Question("testQ", "testA"),
+                new Question("testQ2", "testA2")
+        );
+        when(repository.getAll()).thenReturn(questions);
+
+        assertEquals(out.getQuestions().size(), questions.size());
+        assertTrue(out.getQuestions().containsAll(questions));
+    }
+
+    @Test
+    public void test_get_random_question() {
+        when(repository.getAll()).thenReturn(List.of(
+                new Question("testQ", "testA"),
+                new Question("testQ2", "testA2"),
+                new Question("testQ3", "testA3")
+        ));
+
+        Random randomMock = mock(Random.class);
+        when(randomMock.nextInt(anyInt())).thenReturn(0, 2);
+        out.setRandom(randomMock);
+
+        assertEquals(new Question("testQ", "testA"), out.getRandomQuestion());
+        assertEquals(new Question("testQ3", "testA3"), out.getRandomQuestion());
+    }
+
 }

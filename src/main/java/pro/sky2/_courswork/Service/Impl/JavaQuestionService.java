@@ -12,8 +12,7 @@ import java.util.*;
 public class JavaQuestionService implements QuestionService {
 
     private final Set<Question> questions = new HashSet<>();
-    private final Random random = new Random();
-
+    private Random random = new Random();
 
     @Override
     public Question addQuestion(String question, String answer) {
@@ -27,10 +26,21 @@ public class JavaQuestionService implements QuestionService {
     }
 
     @Override
+    public Question add(String question) {
+        Question addingQuestion = new Question(question);
+
+        if (questions.contains(addingQuestion)) {
+            throw new EmployeeExistException("Этот сотрудник уже добавлен");
+        }
+        questions.add(addingQuestion);
+        return addingQuestion;
+    }
+
+    @Override
     public Question removeQuestion(String question, String answer) {
         Question removingQuestion = new Question(question, answer);
 
-        if (!questions.contains(removingQuestion)) {
+        if (!questions.remove(removingQuestion)) {
             throw new EmployeeNotFoundException("Этот сотрудник не найден");
         }
         return removingQuestion;
@@ -50,4 +60,10 @@ public class JavaQuestionService implements QuestionService {
     public  int getSize() {
        return questions.size();
     }
+
+    public void setRandom(Random random) {
+        this.random = random;
+    }
+
+
 }
