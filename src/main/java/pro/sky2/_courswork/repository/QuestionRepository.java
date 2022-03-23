@@ -6,9 +6,9 @@ import java.util.Collection;
 
 public interface QuestionRepository {
 
-    boolean add(Question question);
+    boolean addQuestion(Question question);
 
-    boolean remove(Question question);
+    boolean removeQuestion(Question question);
 
-    Collection<Question> getAll();
+    Collection<Question> getAllQuestion();
 }

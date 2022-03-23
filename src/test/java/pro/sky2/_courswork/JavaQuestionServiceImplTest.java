@@ -12,19 +12,17 @@ import pro.sky2._courswork.repository.QuestionRepository;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.BooleanSupplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-
 @ExtendWith(MockitoExtension.class)
-class JavaQuestionServiceTest {
+class JavaQuestionServiceImplTest {
 
     @Mock
-    private QuestionRepository repository;
+    private QuestionRepository questionRepository;
 
     @InjectMocks
     private JavaQuestionService out;
@@ -32,19 +30,21 @@ class JavaQuestionServiceTest {
     @Test
     public void test_add() {
         Question question = new Question("testQ", "testA");
-        when(repository.add(question)).thenReturn(true, false);
+        when(questionRepository.addQuestion(question)).thenReturn(true, false);
 
-        assertTrue((BooleanSupplier) out.add(String.valueOf(question)));
-        assertFalse((BooleanSupplier) out.add(String.valueOf(question)));
+        assertTrue(out.addQuestion(question));
+        assertFalse(out.addQuestion(question));
     }
 
     @Test
     public void test_remove() {
-        Question question = new Question("testQ", "testA");
-        when(repository.remove(question)).thenReturn(true, false);
+        String questionText = "testQ";
+        String answerText = "testA";
+        Question question = new Question(questionText, answerText);
+        when(questionRepository.removeQuestion(question)).thenReturn(true, false);
 
-        assertTrue((BooleanSupplier) out.removeQuestion("testQ", "testA"));
-        assertFalse((BooleanSupplier) out.removeQuestion("testQ", "testA"));
+        assertTrue(out.removeQuestion(questionText, answerText));
+        assertFalse(out.removeQuestion(questionText, answerText));
     }
 
     @Test
@@ -53,15 +53,15 @@ class JavaQuestionServiceTest {
                 new Question("testQ", "testA"),
                 new Question("testQ2", "testA2")
         );
-        when(repository.getAll()).thenReturn(questions);
+        when(questionRepository.getAllQuestion()).thenReturn(questions);
 
-        assertEquals(out.getQuestions().size(), questions.size());
-        assertTrue(out.getQuestions().containsAll(questions));
+        assertEquals(out.getAllQuestions().size(), questions.size());
+        assertTrue(out.getAllQuestions().containsAll(questions));
     }
 
     @Test
     public void test_get_random_question() {
-        when(repository.getAll()).thenReturn(List.of(
+        when(questionRepository.getAllQuestion()).thenReturn(List.of(
                 new Question("testQ", "testA"),
                 new Question("testQ2", "testA2"),
                 new Question("testQ3", "testA3")

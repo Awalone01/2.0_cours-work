@@ -1,7 +1,5 @@
 package pro.sky2._courswork.Service.Impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import pro.sky2._courswork.Service.ExaminerService;
@@ -13,7 +11,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {

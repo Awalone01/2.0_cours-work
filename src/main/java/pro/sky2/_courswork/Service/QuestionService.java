@@ -6,13 +6,13 @@ import java.util.Collection;
 
 public interface QuestionService {
 
-    Question addQuestion(String question, String answer);
+    boolean  addQuestion(String question, String answer);
 
-    Question add(String question);
+    boolean addQuestion(Question question);
 
-    Question removeQuestion(String question, String answer);
+    boolean removeQuestion(String question, String answer);
 
-    Collection<Question> getQuestions();
+    Collection<Question> getAllQuestions();
 
     Question getRandomQuestion();
 
